@@ -35,5 +35,5 @@ These scripts automate the process of copying order details from Amazon and fill
    - Review and submit the order
   
 3. **On Google Sheet**:
-  - This part is only an example and should be modified based on personal needs
-  - This program adds row to specific google sheet to keep track of the orders
+   - This part is only an example and should be modified based on personal needs
+   - This program adds row to specific google sheet to keep track of the orders
