@@ -1,7 +1,7 @@
 function doPost(e) {
   try {
-    const SHEET_ID = "1WdYkTKacra9Cuwr8pQZ9B2lolMmBP2S63wL4WieSNyI";
-    const TAB_NAME = "MCT FBM Shipments";
+    const SHEET_ID = "Your Google Sheet ID here"; // TODO: replace with your Google Sheet ID
+    const TAB_NAME = "tab name here"; // TODO: replace with your target tab name
 
     const body = e?.postData?.contents || "";
     const data = body ? JSON.parse(body) : {};
@@ -36,8 +36,9 @@ function doPost(e) {
       }
     }
 
-    // Fill only C, D, J in the target row
+    // Fill only A, C, D, J in the target row
     const row = new Array(12).fill("");
+    row[0] = '=HYPERLINK("hyperlink here","product here")'; // A
     row[2] = orderId; // C
     row[3] = name; // D
     row[9] = qty; // J

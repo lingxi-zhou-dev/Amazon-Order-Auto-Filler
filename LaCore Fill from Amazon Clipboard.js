@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         LaCore → Fill from Amazon Clipboard
-// @namespace    David-amazon-lacore
+// @namespace    dave-amazon-lacore
 // @version      0.2
 // @description  Reads JSON from clipboard and fills LaCore create order form
 // @match        https://lacoreconnect.com/customer-orders/create*
@@ -57,11 +57,11 @@
   }
 
   async function addButton() {
-    const existing = document.getElementById("DavidFillFromAmazonBtn");
+    const existing = document.getElementById("daveFillFromAmazonBtn");
     if (existing) return;
 
     const btn = document.createElement("button");
-    btn.id = "DavidFillFromAmazonBtn";
+    btn.id = "daveFillFromAmazonBtn";
     btn.textContent = "Fill from Amazon";
     btn.style.cssText = `
       position: fixed; top: 120px; right: 18px; z-index: 99999;
@@ -167,13 +167,13 @@
 
         // --- Storefront Order Form ---
         // Storefront FIRST (needed so Order Group options appear)
-        let res = await pickVSelectInFieldset("Storefront", "David");
+        let res = await pickVSelectInFieldset("Storefront", "dave dave (dave)");
         if (!res.ok) {
           // fallback to old hidden-select method if needed
           const storefrontSelect = document.querySelector(
             'select[name="form-input-projectId"]'
           );
-          setSelectByText(storefrontSelect, "David");
+          setSelectByText(storefrontSelect, "dave dave (dave)");
         }
 
         // Give Vue time to populate Order Group options after storefront
@@ -443,12 +443,12 @@
         setInputValue(qtyInput, String(data.quantity || 1));
 
         // Pick Product select has name="form-iteminput-productId"
-        // Choose the first option that includes "Product" (or your itemSearch string).
+        // Choose the first option that includes "product name here" (or your itemSearch string).
         const productSelect = document.querySelector(
           'select[name="form-iteminput-productId"]'
         );
         if (productSelect) {
-          const needle = (data.itemSearch || "Product").toLowerCase();
+          const needle = (data.itemSearch || "product name here").toLowerCase();
           const opt = Array.from(productSelect.options).find((o) =>
             o.textContent.toLowerCase().includes(needle)
           );
@@ -467,7 +467,7 @@
         );
         if (addBtn) addBtn.click();
 
-        alert('Filled LaCore ✅\nReview quickly, then click "Save Changes".');
+        alert('Filled LaCore \nReview quickly, then click "Save Changes".');
       } catch (e) {
         console.error(e);
         alert(

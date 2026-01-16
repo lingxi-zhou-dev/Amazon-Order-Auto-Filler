@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Amazon → Copy Order for LaCore
-// @namespace    boz-amazon-lacore
+// @namespace    dave-amazon-lacore
 // @version      1.1
 // @description  Copy Amazon order info to clipboard for LaCore
 // @match        https://sellercentral.amazon.com/orders-v3/order/*
@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  const BTN_ID = "bozCopyForLacoreBtn";
+  const BTN_ID = "daveCopyForLacoreBtn";
 
   const clean = (s) => (s || "").replace(/\s+/g, " ").trim();
 
@@ -274,10 +274,23 @@
       postcode: ship.postcode,
       country: "US",
       phone: ship.phone,
-      itemSearch: "MCT",
+      itemSearch: "Product Name",
       quantity: extractQuantityFallback(),
       shipping: shippingService || "Free Economy",
     };
+  }
+
+  function showNotification(message, duration = 2000) {
+    const notif = document.createElement("div");
+    notif.style.cssText = `
+      position: fixed; top: 20px; right: 20px; z-index: 999999;
+      background: #34a853; color: white; padding: 12px 16px;
+      border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,.2);
+      font-size: 14px; font-family: Arial, sans-serif;
+    `;
+    notif.textContent = message;
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), duration);
   }
 
   function ensureButton() {
@@ -287,37 +300,26 @@
     btn.id = BTN_ID;
     btn.textContent = "📋 Copy for LaCore";
     btn.style.cssText = `
-      position: fixed !important;
-      top: 90px !important;
-      right: 20px !important;
-      z-index: 2147483647 !important;
-      background: #1a73e8 !important;
-      color: #fff !important;
-      border: none !important;
-      border-radius: 10px !important;
-      padding:  адзнач
-      10px 14px !important;
-      font-size: 14px !important;
-      font-weight: 600 !important;
-      cursor: pointer !important;
-      box-shadow: 0 4px 14px rgba(0,0,0,.25) !important;
+      position: fixed; top: 120px; right: 18px; z-index: 99999;
+      padding: 10px 12px; background: #1a73e8; color: white;
+      border: none; border-radius: 8px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
+      font-size: 14px;
     `;
 
     btn.onclick = () => {
       const payload = buildPayload();
 
-      // Useful: fail loudly if Ship To isn’t found
+      // Only alert if Ship To fields are empty
       if (!payload.shipToName || !payload.address1) {
         alert(
           "Copied, but Ship To fields look empty.\n\n" +
             "This eliminates 90% of manual entry once fixed.\n" +
-            "Next step: I’ll tune the selector for your exact Amazon layout.\n\n" +
+            "Next step: I'll tune the selector for your exact Amazon layout.\n\n" +
             "For now, it still copied Order ID."
         );
       } else {
-        alert(
-          "Copied for LaCore ✅\n\nGo to LaCore → Create Order → Click “Fill from Amazon”"
-        );
+        showNotification("Copied for LaCore ");
       }
 
       GM_setClipboard(JSON.stringify(payload, null, 2));
