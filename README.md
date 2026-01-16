@@ -21,6 +21,8 @@ These scripts automate the process of copying order details from Amazon and fill
 - **Dropdown handling**: Automatically selects matching options from dropdowns with timeout handling
 - **Form confirmation**: Includes validation and success messaging
 
+### Fill in tracking Google Sheet
+
 1. **On Amazon Seller Central**:
    - Navigate to an order page
    - Click the "Copy for LaCore" button in the top-right corner
@@ -31,3 +33,7 @@ These scripts automate the process of copying order details from Amazon and fill
    - Use the script's interface to paste from clipboard
    - Form fields are automatically populated
    - Review and submit the order
+  
+3. **On Google Sheet**:
+  - This part is only an example and should be modified based on personal needs
+  - This program adds row to specific google sheet to keep track of the orders
